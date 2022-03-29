@@ -9,12 +9,12 @@ class TicketCollection {
    * Create and save a new ticket
    * @param {string} username
    * @param {number} price
-   * @return {tickets}
+   * @return {Tickets}
    */
 
   create(username, price) {
     const ticket = new Ticket(username, price);
-    this.tickets.push(ticket);
+    this[tickets].push(ticket);
     return tickets;
   }
 
@@ -23,7 +23,7 @@ class TicketCollection {
    * @param {string} username
    * @param {number} price
    * @param {number} quantity
-   * @return {tickets[]}
+   * @return {Tickets[]}
    */
   createBulk(username, price, quantity) {
     const result = [];
@@ -39,19 +39,19 @@ class TicketCollection {
    */
 
   find() {
-    return this.tickets;
+    return this[tickets];
   }
 
   /**
    * find single ticket by id
    * @param {string} id
-   * @return {ticket}
+   * @return {Ticket}
    */
   findTicketById(id) {
-    const ticket = this.tickets.find(
+    const ticket = this[tickets].find(
       /**
        *
-       * @param {ticket} ticket
+       * @param {Ticket} ticket
        */
       (ticket) => ticket.id === id
     );
@@ -62,10 +62,10 @@ class TicketCollection {
   /**
    * find tickets by username
    * @param {string} username
-   * @return {tickets}
+   * @return {Tickets}
    */
   findTicketByUsername(username) {
-    const tickets = this.tickets.filter(
+    const tickets = this[tickets].filter(
       /**
        *
        * @param {tickets} ticket
@@ -96,7 +96,7 @@ class TicketCollection {
    */
 
   deleteTicketById(ticketId) {
-    const tickets = this.tickets.filter((ticket) => ticket.id !== ticketId);
+    const tickets = this[tickets].filter((ticket) => ticket.id !== ticketId);
     return tickets;
 
     // const index = this.tickets.findIndex(
@@ -176,3 +176,6 @@ class TicketCollection {
 }
 
 const collection = new TicketCollection();
+
+module.exports = collection;
+
