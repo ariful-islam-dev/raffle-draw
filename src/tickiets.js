@@ -20,16 +20,16 @@ class TicketCollection {
 
   /**
    * Create Bulk tickets
-   * @param {string} username 
-   * @param {number} price 
-   * @param {number} quantity 
+   * @param {string} username
+   * @param {number} price
+   * @param {number} quantity
    * @return {tickets[]}
    */
-  createBulk(username, price, quantity){
-    const result = []
-    for(let i = 0; i< quantity; i++){
-        const ticket = this.create(username, price)
-        result.push(ticket)
+  createBulk(username, price, quantity) {
+    const result = [];
+    for (let i = 0; i < quantity; i++) {
+      const ticket = this.create(username, price);
+      result.push(ticket);
     }
     return result;
   }
@@ -90,16 +90,14 @@ class TicketCollection {
     return ticket;
   }
   /**
-   * 
-   * @param {string} ticketId 
+   *
+   * @param {string} ticketId
    * @returns {boolean}
    */
 
-  deleteTicketById(ticketId){
-    
-    const tickets = this.tickets.filter(ticket => ticket.id !== ticketId);
+  deleteTicketById(ticketId) {
+    const tickets = this.tickets.filter((ticket) => ticket.id !== ticketId);
     return tickets;
-
 
     // const index = this.tickets.findIndex(
     //     (ticket)=>ticket.id === id
@@ -111,43 +109,69 @@ class TicketCollection {
     //     this.tickets.splice(index, 1);
     //     return true
     // }
-
   }
 
   /**
    * Bulk update by username
-   * @param {string} username 
-   * @param {{username:string, price:number}} ticketBody 
+   * @param {string} username
+   * @param {{username:string, price:number}} ticketBody
    * @return {tickets[]}
    */
 
-  updateBulk(username, ticketBody){
-
+  updateBulk(username, ticketBody) {
     const userTickets = this.findTicketByUsername(username);
     const updatedTickets = userTickets.map(
-        /**
-         * @param {tickets[]}
-         */
+      /**
+       * @param {tickets[]}
+       */
 
-        (ticket)=>this.updateTicketById(ticket.id, ticketBody)
-    )
+      (ticket) => this.updateTicketById(ticket.id, ticketBody)
+    );
     return updatedTickets;
   }
 
   /**
-   *    
-   * @param {string} username 
+   *
+   * @param {string} username
    * @return {boolean[]}
    */
-  deleteBulk(username){
+  deleteBulk(username) {
     const userTickets = this.findTicketByUsername(username);
     const deletedResult = userTickets.map(
-        /**
-         * @param {Ticket} ticket
-         */
-        (ticket)=>this.deleteTicketById(ticket.id)
-    )
-    return deletedResult
+      /**
+       * @param {Ticket} ticket
+       */
+      (ticket) => this.deleteTicketById(ticket.id)
+    );
+    return deletedResult;
+  }
+
+  /**
+   * find winners
+   * @param {number} winnerCount
+   * @return {Ticket[]}
+   */
+  draw(winnerCount) {
+    const winnerIndexes = new Array(winnerCount);
+
+    let winnerIndex = 0;
+    while (winnerIndex < winnerCount) {
+      let ticketIndex = Math.floor(Math.random() * this.tickets.length);
+
+      if(!winnerIndexes.includes(ticketIndex)){
+        winnerIndexes[winnerIndex++] = ticketIndex;
+        continue;
+      }
+    }
+
+    const winners = winnerIndexes.map(
+      /**
+       * @param {number} index
+       */
+      (index)=> this[tickets][index]
+    );
+
+    return winners
   }
 }
 
