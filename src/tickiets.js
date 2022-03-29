@@ -175,7 +175,7 @@ class TicketCollection {
   }
 }
 
-const collection = new TicketCollection();
+const ticketCollection = new TicketCollection();
 
-module.exports = collection;
+module.exports = ticketCollection;
 
