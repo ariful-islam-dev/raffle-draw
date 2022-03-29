@@ -1,3 +1,3 @@
 # Raffle Draw
 
-**_Ticket Backend API_**
+**_Lottery Ticket Backend API_**

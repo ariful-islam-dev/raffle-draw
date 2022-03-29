@@ -7,13 +7,13 @@ const app = express();
 
 app.use([express.json(), morgan("dev"), cors()]);
 
-app.get("/health", (req, res)=>{
+app.get("/health", (_req, res)=>{
 	res.send({message: "This is Health Route"});
 });
 
 
 // 404 Not Found Error Handling
-app.use((req, res, next)=>{
+app.use((_req, _res, next)=>{
     
     const error = new Error('Resource Not Found')
     error.status= 400
@@ -21,7 +21,7 @@ app.use((req, res, next)=>{
 });
 
 // Global Error Handling
-app.use((err, req, res, next)=>{
+app.use((err, _req, res, _next)=>{
     if(err.status){
         return res.status(err.status).json({
             error: err.message
