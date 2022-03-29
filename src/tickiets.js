@@ -19,6 +19,22 @@ class TicketCollection {
   }
 
   /**
+   * Create Bulk tickets
+   * @param {string} username 
+   * @param {number} price 
+   * @param {number} quantity 
+   * @return {tickets[]}
+   */
+  createBulk(username, price, quantity){
+    const result = []
+    for(let i = 0; i< quantity; i++){
+        const ticket = this.create(username, price)
+        result.push(ticket)
+    }
+    return result;
+  }
+
+  /**
    * Return All tickets from db
    */
 
@@ -96,6 +112,42 @@ class TicketCollection {
     //     return true
     // }
 
+  }
+
+  /**
+   * Bulk update by username
+   * @param {string} username 
+   * @param {{username:string, price:number}} ticketBody 
+   * @return {tickets[]}
+   */
+
+  updateBulk(username, ticketBody){
+
+    const userTickets = this.findTicketByUsername(username);
+    const updatedTickets = userTickets.map(
+        /**
+         * @param {tickets[]}
+         */
+
+        (ticket)=>this.updateTicketById(ticket.id, ticketBody)
+    )
+    return updatedTickets;
+  }
+
+  /**
+   *    
+   * @param {string} username 
+   * @return {boolean[]}
+   */
+  deleteBulk(username){
+    const userTickets = this.findTicketByUsername(username);
+    const deletedResult = userTickets.map(
+        /**
+         * @param {Ticket} ticket
+         */
+        (ticket)=>this.deleteTicketById(ticket.id)
+    )
+    return deletedResult
   }
 }
 
