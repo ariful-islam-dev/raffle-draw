@@ -2,7 +2,7 @@ const ticketCollection = require("./tickiets");
 
 // ticket selling controllers
 
-exports.sellSingleTicket = (req, res, next) => {
+exports.sellSingleTicket = (req, res, _next) => {
   const { username, price } = req.body;
   const ticket = ticketCollection.create(username, price);
 
@@ -12,7 +12,7 @@ exports.sellSingleTicket = (req, res, next) => {
   });
 };
 
-exports.sellBulkTicket = (req, res, next) => {
+exports.sellBulkTicket = (req, res, _next) => {
     const {username, price, quantity}=req.body;
     const tickets = ticketCollection.createBulk(username, price, quantity);
 
@@ -21,3 +21,31 @@ exports.sellBulkTicket = (req, res, next) => {
         tickets
     })
 };
+
+//Find tickets controllers
+exports.findAll = (_req, res, _next)=>{
+  const tickets = ticketCollection.find();
+  res.status(200).json({items: tickets, total: tickets.length})
+}
+
+// Find single ticket controllers
+
+exports.findById = (req, res, next)=>{
+  const id = req.params.id;
+  const ticket = ticketCollection.findTicketById(id);
+
+  if(!ticket){
+    return res.status(404).json({message: '404 Not Found'})
+  }
+
+  res.status(200).json(ticket)
+}
+
+// Find By username
+
+exports.findByUsername = (req, res,_next)=>{
+  const username = req.params.username;
+  const tickets = ticketCollection.findTicketByUsername(username);
+  res.status(200).json({items: tickets, total: tickets.length})
+
+}
