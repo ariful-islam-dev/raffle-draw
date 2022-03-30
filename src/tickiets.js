@@ -1,6 +1,8 @@
 const Ticket = require("./Ticket");
 const { readFile, writeFile } = require("./utils");
 
+const tickets = Symbol('tickets')
+
 class TicketCollection {
   constructor() {
     this.tickets = [];
