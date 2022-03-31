@@ -8,6 +8,7 @@ const {
   updateByUsername,
   deleteById,
   deleteByUsername,
+  drawWinner,
 } = require("./controllers");
 
 const router = require("express").Router();
@@ -25,8 +26,8 @@ router.route("/t/:id").get(findById).put(updateById).delete(deleteById);
 router.route("/u/:username").get(findByUsername).put(updateByUsername).delete(deleteByUsername);
 
 router.post("/bulk", sellBulkTicket);
-router.get("/draw");
+router.get("/draw", drawWinner);
 
-router.route("/").port(sellSingleTicket).get(findAll);
+router.route("/").post(sellSingleTicket).get(findAll);
 
 module.exports = router;

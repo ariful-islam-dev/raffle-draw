@@ -7,6 +7,8 @@ const app = express();
 
 app.use([express.json(), morgan("dev"), cors()]);
 
+app.use('/api/v1/tickets', require('./routs'))
+
 app.get("/health", (_req, res)=>{
 	res.send({message: "This is Health Route"});
 });

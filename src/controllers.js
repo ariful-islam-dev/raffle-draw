@@ -104,3 +104,11 @@ exports.deleteByUsername= (req, res)=>{
     message: 'Delete Successful'
   })
   }
+
+
+  //draw controller
+  exports.drawWinner = (req, res)=>{
+    const wc = req.query.wc ?? 3;
+    const winners = ticketCollection.draw(wc);
+    res.status(200).json({items: winners, totalWinner: winner.length})
+  }
