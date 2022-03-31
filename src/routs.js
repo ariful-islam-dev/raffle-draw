@@ -9,6 +9,7 @@ const {
   deleteById,
   deleteByUsername,
   drawWinner,
+  bulkDeleteByUser,
 } = require("./controllers");
 
 const router = require("express").Router();
@@ -25,7 +26,8 @@ router.route("/t/:id").get(findById).put(updateById).delete(deleteById);
 
 router.route("/u/:username").get(findByUsername).put(updateByUsername).delete(deleteByUsername);
 
-router.post("/bulk", sellBulkTicket);
+// router.post("/bulk", sellBulkTicket);
+router.delete("/bulk/:username", bulkDeleteByUser)
 router.get("/draw", drawWinner);
 
 router.route("/").post(sellSingleTicket).get(findAll);

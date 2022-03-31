@@ -31,7 +31,7 @@ module.exports.findAll = (_req, res, _next)=>{
 
 // Find single ticket controllers
 
-exports.findById = (req, res, next)=>{
+exports.findById = (req, res)=>{
   const id = req.params.id;
   const ticket = ticketCollection.findTicketById(id);
 
@@ -47,6 +47,7 @@ exports.findById = (req, res, next)=>{
 exports.findByUsername = (req, res )=>{
   const username = req.params.username;
   const tickets = ticketCollection.findTicketByUsername(username);
+  
   res.status(200).json({items: tickets, total: tickets.length})
 
 }
@@ -93,7 +94,7 @@ exports.deleteById = (req, res)=>{
   }
 
   res.status(400).json({
-    error: 'Delete Oparation ail'
+    error: 'Delete Oparation error'
   })
 }
 
@@ -109,7 +110,15 @@ exports.deleteByUsername= (req, res)=>{
 
   //draw controller
   exports.drawWinner = (req, res)=>{
-    const wc = req.query.wc ?? 3;
-    const winners = ticketCollection.draw(wc);
-    res.status(200).json({items: winners, totalWinner: winner.length})
+    
+    const winnerCount = req.query.wc ?? 3;
+    const winners = ticketCollection.draw(winnerCount);
+    res.status(200).json({items: winners, totalWinner: winners.length})
+  }
+
+
+  exports.bulkDeleteByUser=(req, res)=>{
+    const username = req.params.username;
+    const deletedUsers = ticketCollection.deleteBulk(username);
+    res.status(200).json({items: deletedUsers, totalWinner: deletedUsers.length})
   }

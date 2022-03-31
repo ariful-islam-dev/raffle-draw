@@ -10,6 +10,7 @@ exports.readFile = async () => {
   const data = await fs.readFile(dbPath);
   return JSON.parse(data);
 };
+
 /**
  * This is database write Function
  * @param {any} data}
