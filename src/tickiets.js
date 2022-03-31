@@ -5,7 +5,9 @@ const tickets = Symbol('tickets')
 
 class TicketCollection {
   constructor() {
-    this.tickets = [];
+    (async function(){
+      this[tickets]= await readFile()
+    })()
   }
   /**
    * Create and save a new ticket
@@ -41,7 +43,9 @@ class TicketCollection {
    */
 
   find() {
+   
     return this[tickets];
+    return this.tickets
   }
 
   /**

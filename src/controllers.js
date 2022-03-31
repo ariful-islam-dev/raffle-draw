@@ -23,7 +23,8 @@ exports.sellBulkTicket = (req, res, _next) => {
 };
 
 //Find tickets controllers
-exports.findAll = (_req, res, _next)=>{
+module.exports.findAll = (_req, res, _next)=>{
+
   const tickets = ticketCollection.find();
   res.status(200).json({items: tickets, total: tickets.length})
 }
