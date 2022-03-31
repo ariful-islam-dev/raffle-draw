@@ -1,13 +1,14 @@
 const Ticket = require("./Ticket");
 const { readFile, writeFile } = require("./utils");
 
-const tickets = Symbol('tickets')
+const tickets = Symbol("tickets");
 
 class TicketCollection {
   constructor() {
-    (async function(){
-      this[tickets]= await readFile()
-    })()
+    (async function () {
+      this[tickets] = await readFile();
+      // console.log(this[tickets]);
+    }.bind(this));
   }
   /**
    * Create and save a new ticket
@@ -19,6 +20,7 @@ class TicketCollection {
   create(username, price) {
     const ticket = new Ticket(username, price);
     this[tickets].push(ticket);
+    writeFile(this[tickets]);
     return tickets;
   }
 
@@ -33,8 +35,10 @@ class TicketCollection {
     const result = [];
     for (let i = 0; i < quantity; i++) {
       const ticket = this.create(username, price);
+
       result.push(ticket);
     }
+    writeFile(result);
     return result;
   }
 
@@ -43,9 +47,7 @@ class TicketCollection {
    */
 
   find() {
-   
     return this[tickets];
-    return this.tickets
   }
 
   /**
@@ -92,7 +94,7 @@ class TicketCollection {
     const ticket = this.findTicketById(ticketId);
     ticket.username = ticketBody.username ?? ticket.username;
     ticket.price = ticketBody.price ?? ticket.price;
-
+    writeFile(this[tickets]);
     return ticket;
   }
   /**
@@ -103,6 +105,7 @@ class TicketCollection {
 
   deleteTicketById(ticketId) {
     const tickets = this[tickets].filter((ticket) => ticket.id !== ticketId);
+    writeFile(this[tickets]);
     return tickets;
 
     // const index = this.tickets.findIndex(
@@ -128,11 +131,12 @@ class TicketCollection {
     const userTickets = this.findTicketByUsername(username);
     const updatedTickets = userTickets.map(
       /**
-       * @param {tickets[]}
+       * @param {Tickets[]}
        */
 
       (ticket) => this.updateTicketById(ticket.id, ticketBody)
     );
+    writeFile(this[tickets]);
     return updatedTickets;
   }
 
@@ -149,6 +153,7 @@ class TicketCollection {
        */
       (ticket) => this.deleteTicketById(ticket.id)
     );
+    writeFile(this[tickets]);
     return deletedResult;
   }
 
@@ -164,7 +169,7 @@ class TicketCollection {
     while (winnerIndex < winnerCount) {
       let ticketIndex = Math.floor(Math.random() * this.tickets.length);
 
-      if(!winnerIndexes.includes(ticketIndex)){
+      if (!winnerIndexes.includes(ticketIndex)) {
         winnerIndexes[winnerIndex++] = ticketIndex;
         continue;
       }
@@ -174,14 +179,13 @@ class TicketCollection {
       /**
        * @param {number} index
        */
-      (index)=> this[tickets][index]
+      (index) => this[tickets][index]
     );
 
-    return winners
+    return winners;
   }
 }
 
 const ticketCollection = new TicketCollection();
 
 module.exports = ticketCollection;
-
