@@ -76,3 +76,31 @@ exports.updateByUsername=(req,res)=>{
   const updateTicket = ticketCollection.updateBulk(username, req.body)
   res.status(200).json({items: tickets, total: tickets.length})
 }
+
+
+
+// Delete Controllers
+
+exports.deleteById = (req, res)=>{
+  const id = req.params.id;
+  const isDelete = ticketCollection.deleteTicketById(id)
+
+  if(isDelete){
+    return res.status(204).json({
+      message: 'Delete Successful'
+    })
+  }
+
+  res.status(400).json({
+    error: 'Delete Oparation ail'
+  })
+}
+
+
+exports.deleteByUsername= (req, res)=>{
+  const username = req.params.username;
+  ticketCollection.deleteBulk(username)
+  res.status(204).json({
+    message: 'Delete Successful'
+  })
+  }
